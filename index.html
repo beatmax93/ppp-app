@@ -165,10 +165,13 @@
         document.getElementById('quiz-screen').className = '';
         document.getElementById('result-screen').className = '';
         document.getElementById('menu-screen').className = 'active';
+    }    
+    function donateStar() {
+        window.Telegram.WebApp.sendData(JSON.stringify({action: "donate", amount: 1}));
     }
-
     initMenu();
 </script>
+    
 </body>
 </html>
 
