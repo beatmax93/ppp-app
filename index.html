@@ -3,384 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ППП — Справочник</title>
+    <title>ППП Справочник</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root {
-            --bg-color: var(--tg-theme-bg-color, #f4f4f9);
-            --text-color: var(--tg-theme-text-color, #222);
-            --card-bg: var(--tg-theme-secondary-bg-color, #ffffff);
-            --button-color: var(--tg-theme-button-color, #2481cc);
-            --button-text: var(--tg-theme-button-text-color, #ffffff);
-            --hint-color: var(--tg-theme-hint-color, #888);
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 480px;
-        }
-
-        #menu-screen, #quiz-screen, #result-screen {
-            display: none;
-            width: 100%;
-        }
-
-        #menu-screen.active, #quiz-screen.active, #result-screen.active {
-            display: block;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .header h1 {
-            font-size: 22px;
-            margin: 0 0 8px 0;
-        }
-        .header p {
-            color: var(--hint-color);
-            font-size: 14px;
-            margin: 0;
-        }
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-        }
-
-        .category-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-        }
-        .category-card:active {
-            transform: scale(0.98);
-            border-color: var(--button-color);
-        }
-        .cat-icon {
-            font-size: 32px;
-            margin-right: 16px;
-        }
-        .cat-info h3 {
-            margin: 0 0 4px 0;
-            font-size: 16px;
-        }
-        .cat-info p {
-            margin: 0;
-            font-size: 13px;
-            color: var(--hint-color);
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .progress {
-            font-size: 13px;
-            color: var(--hint-color);
-            margin-bottom: 8px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        .question-title {
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            line-height: 1.4;
-            }
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .option-btn {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            border: 1px solid rgba(0,0,0,0.1);
-            padding: 14px;
-            border-radius: 10px;
-            text-align: left;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .option-btn:disabled { cursor: default; }
-        .option-btn.correct { background-color: #e6f4ea; border-color: #34a853; color: #137333; font-weight: 600; }
-        .option-btn.wrong { background-color: #fce8e6; border-color: #ea4335; color: #c5221f; }
-        
-        .explanation {
-            margin-top: 14px;
-            padding: 12px;
-            border-radius: 8px;
-            background-color: rgba(36, 129, 204, 0.1);
-            color: var(--text-color);
-            font-size: 14px;
-            display: none;
-            border-left: 4px solid var(--button-color);
-        }
-        .action-btn {
-            width: 100%;
-            background-color: var(--button-color);
-            color: var(--button-text);
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            margin-top: 16px;
-            cursor: pointer;
-        }
-        #next-btn { display: none; }
-
-        .back-nav {
-            color: var(--button-color);
-            font-size: 14px;
-            margin-bottom: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        .result-content { text-align: center; }
-        .result-score { font-size: 36px; font-weight: bold; color: var(--button-color); margin: 10px 0; }
+        :root { --bg-color: var(--tg-theme-bg-color, #17212b); --text-color: var(--tg-theme-text-color, #f5f5f5); --card-bg: var(--tg-theme-secondary-bg-color, #232e3c); --button-color: var(--tg-theme-button-color, #5288c1); --button-text: var(--tg-theme-button-text-color, #ffffff); --hint-color: var(--tg-theme-hint-color, #7f91a4); }
+        body { font-family: -apple-system, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 16px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 480px; }
+        #menu-screen, #quiz-screen, #result-screen { display: none; width: 100%; }
+        #menu-screen.active, #quiz-screen.active, #result-screen.active { display: block; }
+        .category-card { background-color: var(--card-bg); border-radius: 12px; padding: 14px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; }
+        .card { background-color: var(--card-bg); border-radius: 12px; padding: 18px; }
+        .option-btn { background-color: rgba(255,255,255,0.05); color: var(--text-color); border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 10px; width: 100%; margin-bottom: 8px; text-align: left; }
+        .correct { border-color: #4caf50; background-color: rgba(46, 125, 50, 0.3); }
+        .wrong { border-color: #ef5350; background-color: rgba(198, 40, 40, 0.3); }
+        .action-btn { width: 100%; background-color: var(--button-color); color: var(--button-text); border: none; padding: 14px; border-radius: 10px; font-weight: 600; cursor: pointer; }
     </style>
 </head>
 <body>
-
 <div class="container">
-    
     <div id="menu-screen" class="active">
-        <div class="header">
-            <h1>ППП Справочник</h1>
-            <p>Выбери ситуацию для проверки знаний</p>
-        </div>
-        <div class="category-grid" id="category-container"></div>
+        <div style="text-align:center; margin-bottom:20px;"><h1>ППП Справочник</h1></div>
+        <div id="category-container"></div>
     </div>
     <div id="quiz-screen">
-        <div class="back-nav" onclick="showMenu()">← Назад в меню</div>
+        <div onclick="showMenu()" style="color:var(--button-color); margin-bottom:10px; cursor:pointer;">← В меню</div>
         <div class="card">
-            <div class="progress" id="progress">Вопрос 1 из 10</div>
-            <div class="question-title" id="question">Загрузка...</div>
-            <div class="options" id="options"></div>
-            <div class="explanation" id="explanation"></div>
-            <button class="action-btn" id="next-btn" onclick="nextQuestion()">Следующий вопрос</button>
+            <div id="progress" style="font-size:12px; color:var(--hint-color); margin-bottom:10px;"></div>
+            <div id="question" style="font-weight:600; margin-bottom:15px;"></div>
+            <div id="options"></div>
+            <div id="explanation" style="display:none; background:rgba(82, 136, 193, 0.15); padding:10px; border-radius:8px; margin-top:10px; font-size:14px;"></div>
+            <button id="next-btn" class="action-btn" style="display:none; margin-top:15px;" onclick="nextQuestion()">Следующий</button>
         </div>
     </div>
-
     <div id="result-screen">
-        <div class="card result-content">
+        <div class="card" style="text-align:center;">
             <h2>Тест завершён!</h2>
-            <p>Ваш результат:</p>
-            <div class="result-score" id="score-display">0 / 10</div>
-            <p id="result-message"></p>
+            <div id="score-display" style="font-size:30px; color:var(--button-color); margin:10px 0;"></div>
             <button class="action-btn" onclick="showMenu()">Вернуться в меню</button>
         </div>
     </div>
-
 </div>
-
 <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-
+    const tg = window.Telegram.WebApp; tg.expand();
     const db = {
-        police: {
-            title: "Полиция на улице",
-            icon: "👮",
-            desc: "Проверка документов, досмотр, задержание",
-            questions: [
-                { q: "В каком случае сотрудник имеет право проверить документы на улице?", o: ["Без причины", "Подозрение или ориентировка", "Всегда", "С понятыми"], c: 1, e: "Только при подозрении в преступлении/нарушении или наличии ориентировки (ст. 13 ФЗ «О полиции»)." },
-                { q: "Можно ли снимать полицейского?", o: ["Да", "Нет", "С разрешения", "Без звука"], c: 0, e: "Деятельность полиции открыта (ст. 8 ФЗ). Снимать можно, если это не мешает спецоперации." },
-                { q: "Чем досмотр отличается от осмотра?", o: ["Ничем", "Досмотр — это физическое обследование с протоколом и понятыми", "Осмотр только в отделе", "Досмотр с адвокатом"], c: 1, e: "При досмотре сотрудник роется в вещах, нужен протокол и 2 понятых или видеозапись." },
-                { q: "Срок административного задержания?", o: ["До 3 часов", "До 24 часов", "До 48 часов", "Не ограничен"], c: 0, e: "По общему правилу — не более 3 часов (ст. 27.5 КоАП РФ)." },
-                { q: "Право на телефонный звонок?", o: ["Нет", "Только адвокату", "Да, в течение 3 часов", "Да, по громкой связи"], c: 2, e: "Вы имеете право на 1 звонок близким в течение 3 часов после задержания." },
-                { q: "Вход полиции в квартиру без спроса?", o: ["Невозможно", "Для спасения жизни или поимки преступника", "Для проверки счетчиков", "Из-за шума"], c: 1, e: "Допускается только в экстренных случаях: спасение людей, пресечение преступления." },
-                { q: "Если полицейский не показывает удостоверение?", o: ["Подчиниться", "Звонить 112", "Забрать значок", "Убежать"], c: 1, e: "Обязан показать по требованию (ст. 5 ФЗ). Звоните 112." },
-                { q: "Полицейские могут быть понятыми?", o: ["Да", "Нет, они заинтересованные лица", "Да, если их двое", "Ночью могут"], c: 1, e: "Понятой должен быть независимым лицом (ст. 25.7 КоАП)." },
-                { q: "Не согласен с протоколом?", o: ["Порвать", "Написать 'Не согласен' и указать почему", "Не подписывать", "Подписать молча"], c: 1, e: "Никогда не отказывайтесь подписывать — пишите свои возражения прямо в протокол." },
-                { q: "Разблокировать телефон по требованию?", o: ["Да", "Нет, это тайна переписки (ст. 23 Конституции)", "Только при краже", "После 18 лет"], c: 1, e: "Без решения суда никто не имеет права лезть в ваш телефон." }
-            ]
-        },
-        auto: {
-            title: "Авто и ГИБДД",
-            icon: "🚗",
-            desc: "ПДД, алкотестер, остановка вне поста",
-            questions: [
-                { q: "Остановка вне стационарного поста?", o: ["Запрещена", "Разрешена для проверки документов", "Только в рейд", "Только с понятыми"], c: 1, e: "По приказу МВД №264 инспектор может остановить авто для проверки документов везде." },
-                { q: "Обязан ли водитель выходить из авто?", o: ["Всегда", "Только по требованию (досмотр, отстранение), иначе — это лишь просьба", "Ночью", "Только перед майором"], c: 1, e: "Выход обязателен при досмотре, отстранении от руля. В остальных случаях — это предложение." },
-                { q: "Медицинское освидетельствование vs проверка на месте?", o: ["Одно и то же", "На месте — инспектор с алкотестером, мед. — врач в клинике", "Только на наркотики", "Только с камерой"], c: 1, e: "На месте дышат в трубку инспектора. К врачу едут при несогласии." },
-                { q: "Отказ от медосвидетельствования у врача?", o: ["Штраф 500р", "Штраф 30к + лишение прав", "Предупреждение", "15 суток"], c: 1, e: "Отказ приравнивается к пьянству. Лишение прав и штраф 30 000 рублей (12.26 КоАП)." },
-                { q: "Документы в руки инспектору?", o: ["Через стекло", "Да, без обложек и цепочек", "Только с предписанием", "Можно с экрана"], c: 1, e: "ПДД обязывает передавать документы в руки." },
-                { q: "Откройте багажник. Что это?", o: ["Осмотр", "Досмотр (нужен протокол и 2 понятых)", "Обыск", "Проверка"], c: 1, e: "Это досмотр. Требуйте протокол и понятых или видеозапись." },
-                { q: "Съемка инспектора в авто?", o: ["Запрещена", "Разрешена", "С согласия", "Только на регистратор"], c: 1, e: "Вы имеете право снимать действия должностного лица." },
-                { q: "Задержание за штрафы?", o: ["Сразу на штрафстоянку", "Только при просрочке 60 дней (ст. 20.25 КоАП) для суда", "Нет базы", "Заберут права"], c: 1, e: "Инспектор может задержать до 3 часов только если есть неоплаченный в срок штраф." },
-                { q: "Нечитаемый номер — это?", o: ["Днем с 20м не видна 1 буква/цифра", "Грязь 50%", "Ночью не видно передний", "Не читает камера"], c: 0, e: "По ГОСТу: днем с 20м не читается хотя бы 1 символ спереди/сзади, ночью — сзади." },
-                { q: "Езда без ОСАГО?", o: ["Эвакуация", "Штраф 800 рублей", "Лишение", "Штраф 500р"], c: 1, e: "Только штраф 800 рублей. Эвакуировать за это не могут." }
-            ]
-        },
-        bus: {
-            title: "Контролёры (Транспорт)",
-            icon: "🚌",
-            desc: "Оплата, штрафы, задержания в автобусе",
-            questions: [
-                { q: "Имеет ли контролер право задерживать вас силой?", o: ["Да, до приезда полиции", "Нет, применять силу и блокировать выход запрещено", "Только при неоплате", "Только мужчин"], c: 1, e: "Контролер не обладает полномочиями полиции. Применение силы незаконно." },
-                { q: "Может ли контролер высадить ребенка (до 16 лет) без билета?", o: ["Да", "Нет, это запрещено федеральным законом", "Только зимой", "С полицией"], c: 1, e: "По закону высаживать детей до 16 лет без сопровождения взрослых категорически запрещено." },
-                { q: "Вы обязаны дать паспорт контролеру?", o: ["Да, для выписки штрафа", "Нет, контролер не имеет права требовать паспорт", "Только права", "Всем подряд"], c: 1, e: "Контролер не имеет права требовать документы. В случае отказа он может лишь вызвать полицию." },
-                { q: "Контролер выхватывает телефон/карту для проверки?", o: ["Имеет право", "Это незаконно, пассажир сам прикладывает карту к терминалу", "Только при подозрении", "Только социалку"], c: 1, e: "Забирать ваши личные вещи силой контролер не имеет права." },
-                { q: "Изъятие чужой социальной карты?", o: ["Запрещено", "Разрешено, карта изымается с составлением акта", "Только полицией", "Только в метро"], c: 1, e: "Если вы едете по чужой социалке, ее законно изымут." },
-                { q: "Валидатор в автобусе сломан. Что делать?", o: ["Ехать бесплатно", "Купить билет у водителя или оплатить иначе, штраф правомерен", "Выйти", "Сломать турникет"], c: 1, e: "По правилам перевозок неработающий валидатор не освобождает от оплаты, если есть другой способ." },
-                { q: "Блокировка дверей автобуса контролерами?", o: ["Законна", "Незаконна (незаконное лишение свободы)", "По инструкции", "До приезда МВД"], c: 1, e: "Задерживать транспорт и блокировать людей в салоне контролеры не имеют права." },
-                { q: "Штраф наличными на месте?", o: ["Обязаны оплатить", "Незаконно, выписывается только официальное постановление", "Скидка 50%", "Переводом на карту"], c: 1, e: "Никаких наличных и переводов. Только официальный протокол." },
-                { q: "Могут ли контролеры досмотреть вашу сумку?", o: ["Да", "Только через сканер", "Категорически нет", "С понятыми"], c: 2, e: "Досмотр могут проводить только сотрудники полиции." },
-                { q: "Обязаны ли вы ждать полицию с контролером?", o: ["Обязаны", "Нет, вы не задержаны", "До 3 часов", "Да, в наручниках"], c: 1, e: "Юридически вы не задержаны, у контролера нет права удерживать человека." }
-            ]
-        },
-        scooter: {
-            title: "Электросамокаты (СИМ)",
-            icon: "🛴",
-            desc: "ПДД, тротуары, штрафы для СИМ",
-            questions: [
-                { q: "Максимально разрешенная скорость на самокате в городе?", o: ["15 км/ч", "25 км/ч", "40 км/ч", "Не ограничена"], c: 1, e: "По ПДД максимальная скорость для СИМ — 25 км/ч." },
-                { q: "Можно ли ехать вдвоем на одном самокате?", o: ["Да, если позволяет вес", "Нет, это нарушение ПДД", "Можно с ребенком", "Только на арендованных"], c: 1, e: "Езда вдвоем строго запрещена (штраф 800 руб)." },
-                { q: "Переход по 'зебре' на самокате?", o: ["Можно ехать медленно", "Обязан спешиться и идти пешком", "Имеет приоритет", "Можно на зеленый"], c: 1, e: "При пересечении дороги по пешеходному переходу необходимо спешиться." },
-                { q: "Приоритет на тротуаре?", o: ["У самоката", "У пешехода", "Кто правее", "У курьеров"], c: 1, e: "Пешеходы всегда имеют приоритет на тротуарах." },
-                { q: "Нужны ли права на арендный самокат?", o: ["Да, категория М", "Нет, если мощность до 250 Вт", "Только с 18 лет", "Права категории В"], c: 1, e: "Стандартные арендные самокаты до 250 Вт приравниваются к СИМ, права не нужны." },
-                { q: "Где ехать старше 14 лет, если нет велодорожки?", o: ["По тротуару или правому краю дороги", "По встречке", "По центру дороги", "Только по паркам"], c: 0, e: "СИМ могут двигаться по тротуарам, а при их отсутствии — по правому краю проезжей части." },
-                { q: "Езда пьяным на самокате?", o: ["Разрешена", "Штраф 1000-1500 руб", "Лишение прав на авто", "Арест"], c: 1, e: "Штраф за нарушение ПДД (ст. 12.29/12.30 КоАП)." },
-                { q: "Может ли ДПС остановить самокатчика?", o: ["Нет", "Да, вы участник дорожного движения", "Только полиция", "Только на дороге"], c: 1, e: "СИМ — это транспортное средство, ДПС имеет полное право вас остановить." },
-                { q: "Максимальный вес самоката для езды по тротуару?", o: ["20 кг", "35 кг", "50 кг", "Не ограничен"], c: 1, e: "По ПДД, если СИМ весит более 35 кг, движение по тротуарам запрещено." },
-                { q: "Поворот налево на многополосной дороге?", o: ["С левого ряда", "Запрещен, нужно спешиться и перейти по зебре", "Поворот с поворотником", "Разрешен всем"], c: 1, e: "Поворот налево для СИМ запрещен на дорогах с более чем 1 полосой в данном направлении." }
-            ]
-        }
+        police: { title: "Полиция", icon: "👮", questions: [
+            { q: "Снимать полицейского можно?", o: ["Да", "Нет", "С разрешения", "Только без звука"], c: 0, e: "Деятельность полиции открыта." },
+            { q: "Досмотр отличается от осмотра?", o: ["Ничем", "Наличием протокола и понятых", "Только местом", "Только временем"], c: 1, e: "Досмотр — это физическое исследование вещей с протоколом." }
+        ]},
+        army: { title: "Военкомат", icon: "🪖", questions: [
+            { q: "Повестка через Реестр?", o: ["С момента открытия", "Через 7 дней", "Не считается", "Через месяц"], c: 1, e: "Через 7 дней с даты размещения." },
+            { q: "Категория В?", o: ["Годен", "Ограниченно годен (запас)", "Отсрочка", "Не годен"], c: 1, e: "Зачисление в запас." }
+        ]},
+        auto: { title: "Авто", icon: "🚗", questions: [
+            { q: "Остановка вне поста?", o: ["Запрещена", "Разрешена", "Только с понятыми", "Только ночью"], c: 1, e: "Разрешена." },
+            { q: "Выход из авто?", o: ["Всегда", "Только при досмотре", "Никогда", "По просьбе"], c: 1, e: "При досмотре/отстранении." }
+        ]},
+        bus: { title: "Транспорт", icon: "🚌", questions: [
+            { q: "Сила контролера?", o: ["Да", "Нет", "Только в метро", "С полицией"], c: 1, e: "Нет прав на силу." },
+            { q: "Высадка ребенка?", o: ["Можно", "Запрещено", "Только зимой", "С МВД"], c: 1, e: "Запрещено." }
+        ]},
+        scooter: { title: "Самокаты", icon: "🛴", questions: [
+            { q: "Скорость?", o: ["15", "25", "40", "Не ограничена"], c: 1, e: "25 км/ч." },
+            { q: "Вдвоем?", o: ["Можно", "Запрещено", "С ребенком", "Только на своем"], c: 1, e: "Запрещено." }
+        ]}
     };
-
-    let currentCategory = '';
-    let currentQuestion = 0;
-    let score = 0;
-    function initMenu() {
-        const container = document.getElementById('category-container');
-        container.innerHTML = '';
-        for (let key in db) {
-            const cat = db[key];
-            const div = document.createElement('div');
-            div.className = 'category-card';
-            div.onclick = () => startCategory(key);
-            div.innerHTML = `
-                <div class="cat-icon">${cat.icon}</div>
-                <div class="cat-info">
-                    <h3>${cat.title}</h3>
-                    <p>${cat.desc}</p>
-                </div>
-            `;
-            container.appendChild(div);
-        }
-    }
-
-    function showMenu() {
-        document.getElementById('quiz-screen').classList.remove('active');
-        document.getElementById('result-screen').classList.remove('active');
-        document.getElementById('menu-screen').classList.add('active');
-    }
-
-    function startCategory(key) {
-        currentCategory = key;
-        currentQuestion = 0;
-        score = 0;
-        
-        document.getElementById('menu-screen').classList.remove('active');
-        document.getElementById('quiz-screen').classList.add('active');
-        
-        loadQuestion();
-    }
-
-    function loadQuestion() {
-        const catData = db[currentCategory].questions;
-        const q = catData[currentQuestion];
-        
-        document.getElementById('progress').innerText = `Вопрос ${currentQuestion + 1} из ${catData.length}`;
-        document.getElementById('question').innerText = q.q;
-        
-        const optionsContainer = document.getElementById('options');
-        optionsContainer.innerHTML = '';
-        
-        const exp = document.getElementById('explanation');
-        exp.style.display = 'none';
-        
-        const nextBtn = document.getElementById('next-btn');
-        nextBtn.style.display = 'none';
-
-        q.o.forEach((opt, index) => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerText = opt;
-            btn.onclick = () => selectOption(index, q.c, q.e);
-            optionsContainer.appendChild(btn);
-        });
-    }
-
-    function selectOption(selectedIndex, correctIndex, explanationText) {
-        const buttons = document.querySelectorAll('.option-btn');
-        buttons.forEach((btn, idx) => {
-            btn.disabled = true;
-            if (idx === correctIndex) btn.classList.add('correct');
-            else if (idx === selectedIndex) btn.classList.add('wrong');
-        });
-
-        if (selectedIndex === correctIndex) score++;
-
-        const exp = document.getElementById('explanation');
-        exp.innerText = explanationText;
-        exp.style.display = 'block';
-
-        const nextBtn = document.getElementById('next-btn');
-        const totalQ = db[currentCategory].questions.length;
-        nextBtn.innerText = currentQuestion < totalQ - 1 ? "Следующий вопрос" : "Посмотреть результаты";
-        nextBtn.style.display = 'block';
-    }
-
-    function nextQuestion() {
-        currentQuestion++;
-        if (currentQuestion < db[currentCategory].questions.length) {
-            loadQuestion();
-        } else {
-            showResults();
-        }
-    }
-
-    function showResults() {
-        document.getElementById('quiz-screen').classList.remove('active');
-        document.getElementById('result-screen').classList.add('active');
-        
-        const total = db[currentCategory].questions.length;
-        document.getElementById('score-display').innerText = `${score} / ${total}`;
-        
-        let msg = score >= 8 ? 'Отлично! Вы знаете свои права на зубок.' : 'Стоит подтянуть теорию. Попробуйте еще раз!';
-        document.getElementById('result-message').innerText = msg;
-    }
-
-    initMenu();
+    let curData = [], curQ = 0, score = 0;
+    function showMenu() { document.getElementById('menu-screen').className='active'; document.getElementById('quiz-screen').className=''; document.getElementById('result-screen').className=''; }
+    function start(k) { curData = db[k].questions.sort(()=>Math.random()-0.5); curQ = 0; score = 0; document.getElementById('menu-screen').className=''; document.getElementById('quiz-screen').className='active'; loadQ(); }
+    function loadQ() { let q = curData[curQ]; document.getElementById('progress').innerText = `Вопрос ${curQ+1}/${curData.length}`; document.getElementById('question').innerText = q.q; let h = ''; q.o.forEach((o, i) => h += `<button class="option-btn" onclick="check(${i}, ${q.c}, '${q.e}')">${o}</button>`); document.getElementById('options').innerHTML = h; document.getElementById('next-btn').style.display='none'; document.getElementById('explanation').style.display='none'; }
+    function check(s, c, e) { document.querySelectorAll('.option-btn').forEach((b, i) => { b.disabled=true; b.className='option-btn '+(i==c?'correct':'wrong'); }); document.getElementById('explanation').innerText = e; document.getElementById('explanation').style.display='block'; document.getElementById('next-btn').style.display='block'; if(s==c) score++; }
+    function nextQuestion() { curQ++; if(curQ < curData.length) loadQ(); else { document.getElementById('quiz-screen').className=''; document.getElementById('result-screen').className='active'; document.getElementById('score-display').innerText = score + "/" + curData.length; } }
+    Object.keys(db).forEach(k => document.getElementById('category-container').innerHTML += `<div class="category-card" onclick="start('${k}')"><div>${db[k].icon}</div><div style="margin-left:15px;">${db[k].title}</div></div>`);
 </script>
-
 </body>
 </html>
-    
