@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ППП — Правила Поведения с Полицией</title>
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: var(--tg-theme-bg-color, #f4f4f9);
+            --text-color: var(--tg-theme-text-color, #222);
+            --card-bg: var(--tg-theme-secondary-bg-color, #ffffff);
+            --button-color: var(--tg-theme-button-color, #2481cc);
+            --button-text: var(--tg-theme-button-text-color, #ffffff);
+            --hint-color: var(--tg-theme-hint-color, #888);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 16px;
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-btn {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid #ccc;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn.correct {
+            background-color: #e6f4ea;
+            border-color: #34a853;
+            color: #137333;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #fce8e6;
+            border-color: #ea4335;
+            color: #c5221f;
+        }
+
+        .explanation {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #e8f0fe;
+            color: #1967d2;
+            font-size: 14px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="question-title" id="question">Загрузка вопроса...</div>
+        <div class="options" id="options"></div>
+        <div class="explanation" id="explanation"></div>
+    </div>
+</div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.expand(); // Разворачивает Mini App на весь экран
+
+    const quizData = [
+        {
+            question: "Обязан ли сотрудник полиции назвать свою должность, звание и фамилию при обращении к гражданину?",
+            options: [
+                "Да, обязан всегда перед началом общения.",
+                "Нет, только если гражданин сам об этом попросит.",
+                "Обязан только при предъявлении удостоверения во время обыска."
+            ],
+            correct: 0,
+            explanation: "Согласно ч. 4 ст. 5 ФЗ «О полиции», при обращении к гражданину сотрудник полиции обязан назвать свои должность, звание, фамилию, предъявить по требованию служебное удостоверение и сообщить причину и цель обращения."
+        }
+    ];
+
+    function loadQuestion() {
+        const q = quizData[0];
+        document.getElementById('question').innerText = q.question;
+        
+        const optionsContainer = document.getElementById('options');
+        optionsContainer.innerHTML = '';
+
+        q.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => selectOption(index, q.correct, q.explanation);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function selectOption(selectedIndex, correctIndex, explanationText) {
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach((btn, idx) => {
+            btn.disabled = true;
+            if (idx === correctIndex) {
+                btn.classList.add('correct');
+            } else if (idx === selectedIndex) {
+                btn.classList.add('wrong');
+            }
+        });
+
+        const exp = document.getElementById('explanation');
+        exp.innerText = explanationText;
+        exp.style.display = 'block';
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
