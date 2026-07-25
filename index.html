@@ -40,35 +40,46 @@
             margin-bottom: 16px;
         }
 
-        .question-title {
-            font-size: 18px;
+        .progress {
+            font-size: 13px;
+            color: var(--hint-color);
+            margin-bottom: 8px;
             font-weight: 600;
-            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .question-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            line-height: 1.4;
         }
 
         .options {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .option-btn {
             background-color: var(--bg-color);
             color: var(--text-color);
-            border: 1px solid #ccc;
-            padding: 12px;
-            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 14px;
+            border-radius: 10px;
             text-align: left;
             font-size: 15px;
             cursor: pointer;
             transition: all 0.2s ease;
+            line-height: 1.3;
         }
 
         .option-btn.correct {
             background-color: #e6f4ea;
             border-color: #34a853;
             color: #137333;
-            font-weight: bold;
+            font-weight: 600;
         }
 
         .option-btn.wrong {
@@ -78,49 +89,189 @@
         }
 
         .explanation {
-            margin-top: 12px;
+            margin-top: 14px;
             padding: 12px;
             border-radius: 8px;
-            background-color: #e8f0fe;
-            color: #1967d2;
+            background-color: rgba(36, 129, 204, 0.1);
+            color: var(--text-color);
             font-size: 14px;
+            line-height: 1.4;
             display: none;
+            border-left: 4px solid var(--button-color);
+        }
+
+        .next-btn {
+            width: 100%;
+            background-color: var(--button-color);
+            color: var(--button-text);
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 16px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .result-screen {
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        .result-score {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--button-color);
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="card">
+    <div class="card" id="quiz-card">
+        <div class="progress" id="progress">Вопрос 1 из 10</div>
         <div class="question-title" id="question">Загрузка вопроса...</div>
         <div class="options" id="options"></div>
         <div class="explanation" id="explanation"></div>
+        <button class="next-btn" id="next-btn" onclick="nextQuestion()">Следующий вопрос</button>
     </div>
 </div>
 
 <script>
     const tg = window.Telegram.WebApp;
-    tg.expand(); // Разворачивает Mini App на весь экран
+    tg.expand();
 
     const quizData = [
         {
-            question: "Обязан ли сотрудник полиции назвать свою должность, звание и фамилию при обращении к гражданину?",
+            question: "1. В каком случае сотрудник полиции имеет право проверить у вас документы на улице?",
             options: [
-                "Да, обязан всегда перед началом общения.",
-                "Нет, только если гражданин сам об этом попросит.",
-                "Обязан только при предъявлении удостоверения во время обыска."
+                "Только если вы совершаете подозрительные действия или похожи на ориентировку.",
+                "В любой момент без объяснения причин, это стандартная процедура.",
+                "Если есть ориентировка, подозрение в правонарушении или вы в розыске.",
+                "Только в присутствии двух понятых."
+            ],
+            correct: 2,
+            explanation: "Согласно ч. 2 ст. 13 ФЗ «О полиции», проверка документов допустима при подозрении в совершении преступления/правонарушения, наличии ориентировки или при нахождении в розыске."
+        },
+        {
+            question: "2. Имеете ли вы право снимать сотрудника полиции на камеру телефона при исполнении им обязанностей?",
+            options: [
+                "Да, принцип открытости и публичности деятельности полиции зафиксирован в законе.",
+                "Нет, это нарушение персональных данных сотрудника.",
+                "Только с письменного разрешения самого сотрудника или его начальника.",
+                "Снимать можно, но только без звука."
             ],
             correct: 0,
-            explanation: "Согласно ч. 4 ст. 5 ФЗ «О полиции», при обращении к гражданину сотрудник полиции обязан назвать свои должность, звание, фамилию, предъявить по требованию служебное удостоверение и сообщить причину и цель обращения."
+            explanation: "Согласно ст. 8 ФЗ «О полиции», деятельность полиции является открытой для общества. Снимать можно, если это не мешает проведению спецопераций."
+        },
+        {
+            question: "3. Чем «досмотр» карманов/вещей отличается от «осмотра»?",
+            options: [
+                "Это одно и то же, разница только в названии.",
+                "При осмотре сотрудник визуально изучает вещи, а при досмотре имеет право физически залезть в вещи (требует понятых или видеозапись).",
+                "Осмотр проводится только в отделении, а досмотр — на улице.",
+                "При досмотре обязательно присутствие адвоката."
+            ],
+            correct: 1,
+            explanation: "Ст. 27.7 КоАП РФ: Личный досмотр и досмотр вещей — это принудительное обследование. Оно обязательно оформляется протоколом в присутствии двух понятых либо с видеозаписью."
+        },
+        {
+            question: "4. На какой максимальный срок вас могут задержать для установления личности или разбирательства (по общему правилу)?",
+            options: [
+                "До 3 часов.",
+                "До 24 часов.",
+                "До 48 часов без решения суда.",
+                "Срок не ограничен, пока не приедет адвокат."
+            ],
+            correct: 0,
+            explanation: "Ст. 27.5 КоАП РФ: Срок административного задержания по общему правилу не может превышать 3 часа. До 48 часов — только по делам с административным арестом."
+        },
+        {
+            question: "5. Имеет ли задержанный гражданин право на телефонный звонок родственникам или близким?",
+            options: [
+                "Нет, звонить можно только адвокату.",
+                "Да, в кратчайший срок, но не позднее 3 часов с момента задержания.",
+                "Только после подписания протокола задержания.",
+                "Да, но разговор происходит строго по громкой связи под запись."
+            ],
+            correct: 1,
+            explanation: "Ч. 7 ст. 14 ФЗ «О полиции»: Задержанный имеет право на один телефонный разговор для уведомления близких не позднее 3 часов с момента задержания."
+        },
+        {
+            question: "6. Может ли сотрудник полиции войти в вашу квартиру без вашего согласия и без решения суда?",
+            options: [
+                "Категорически нет, жилье неприкосновенно ни при каких обстоятельствах.",
+                "Да, для спасения жизни граждан, задержания подозреваемых или пресечения преступления.",
+                "Да, если у него есть плановая проверка прописки.",
+                "Да, если поступила жалоба от соседей на шум после 23:00."
+            ],
+            correct: 1,
+            explanation: "Ч. 3 ст. 15 ФЗ «О полиции»: Вход в жильё допускается для спасения жизни/имущества, обеспечения безопасности, задержания подозреваемых или выяснения обстоятельств несчастного случая."
+        },
+        {
+            question: "7. Что делать, если сотрудник полиции отказывается предъявить служебное удостоверение?",
+            options: [
+                "Согласиться и выполнять все его требования.",
+                "Вежливо напомнить о ч. 4 ст. 5 ФЗ «О полиции» и позвонить по номеру 102 / 112.",
+                "Попытаться выхватить его нагрудный знак или документы.",
+                "Убежать, так как это точно мошенник."
+            ],
+            correct: 1,
+            explanation: "По закону сотрудник обязан предъявить удостоверение. Если отказывается — вежливо фиксируйте это на видео и звоните 102/112."
+        },
+        {
+            question: "8. Могут ли сотрудниками полиции в качестве понятых быть привлечены их коллеги (стажеры/полицейские)?",
+            options: [
+                "Да, главное чтобы их было двое.",
+                "Нет, понятыми могут быть только совершеннолетние незаинтересованные граждане.",
+                "Да, если дело происходит ночью и на улице нет прохожих.",
+                "Зависит от тяжести правонарушения."
+            ],
+            correct: 1,
+            explanation: "Ст. 25.7 КоАП РФ: В качестве понятого может быть привлечено любое не заинтересованное в исходе дела лицо. Сотрудники полиции являются заинтересованной стороной."
+        },
+        {
+            question: "9. Что делать, если вы не согласны с тем, что написал сотрудник полиции в протоколе?",
+            options: [
+                "Категорически отказаться подписывать и порвать документ.",
+                "Написать в графе «Объяснения»: «С протоколом не согласен» и подробно указать причины перед подписью.",
+                "Подписать без замечаний, а потом оспорить в суде.",
+                "Отказаться от подписи и нигде ничего не писать."
+            ],
+            correct: 1,
+            explanation: "Никогда не оставляйте пустые поля. Внесите свои возражения прямо в протокол, перечеркните пустые строчки Z-образным росчерком и только потом ставьте подпись."
+        },
+        {
+            question: "10. Обязаны ли вы по требованию сотрудника полиции на улице назвать пароль или разблокировать свой смартфон?",
+            options: [
+                "Да, это стандартная процедура проверки.",
+                "Нет, согласно ст. 51 Конституции РФ и ст. 23 (тайна переписки), вы не обязаны этого делать.",
+                "Обязаны, только если телефон находится в ориентировке на кражу.",
+                "Обязаны, если вам исполнилось 18 лет."
+            ],
+            correct: 1,
+            explanation: "Смартфон защищен тайной переписки (ст. 23 Конституции) и правом не свидетельствовать против себя (ст. 51 Конституции). Доступ возможен только по решению суда или в рамках изъятия с протоколом."
         }
     ];
 
+    let currentQuestion = 0;
+    let score = 0;
+
     function loadQuestion() {
-        const q = quizData[0];
+        const q = quizData[currentQuestion];
+        document.getElementById('progress').innerText = `Вопрос ${currentQuestion + 1} из ${quizData.length}`;
         document.getElementById('question').innerText = q.question;
         
         const optionsContainer = document.getElementById('options');
         optionsContainer.innerHTML = '';
+
+        const exp = document.getElementById('explanation');
+        exp.style.display = 'none';
+        
+        const nextBtn = document.getElementById('next-btn');
+        nextBtn.style.display = 'none';
 
         q.options.forEach((opt, index) => {
             const btn = document.createElement('button');
@@ -142,9 +293,43 @@
             }
         });
 
+        if (selectedIndex === correctIndex) {
+            score++;
+        }
+
         const exp = document.getElementById('explanation');
         exp.innerText = explanationText;
         exp.style.display = 'block';
+
+        const nextBtn = document.getElementById('next-btn');
+        if (currentQuestion < quizData.length - 1) {
+            nextBtn.innerText = "Следующий вопрос";
+        } else {
+            nextBtn.innerText = "Посмотреть результаты";
+        }
+        nextBtn.style.display = 'block';
+    }
+
+    function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        const card = document.getElementById('quiz-card');
+        card.innerHTML = `
+            <div class="result-screen">
+                <h2>Тест завершён!</h2>
+                <p>Ваш результат:</p>
+                <div class="result-score">${score} / ${quizData.length}</div>
+                <p>${score >= 8 ? 'Отличный результат! Вы отлично знаете свои права.' : 'Есть над чем поработать. Рекомендуем повторить статьи закона «О полиции».'}</p>
+                <button class="next-btn" style="display:block; margin-top:20px;" onclick="location.reload()">Пройти заново</button>
+            </div>
+        `;
     }
 
     loadQuestion();
