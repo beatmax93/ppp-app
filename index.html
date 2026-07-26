@@ -8,7 +8,11 @@
         :root { --bg-color: #17212b; --text-color: #f5f5f5; --card-bg: #232e3c; --button-color: #5288c1; --hint-color: #7f91a4; }
         body { font-family: sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 16px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 480px; }
-        #menu-screen, #quiz-screen, #result-screen { display: none; width: 100%; }
+        #menu-screen, #quiz-screen, #result-screen {
+    display: none;
+    max-height: 400px;
+    overflow-y: auto;
+        }
         .active { display: block !important; }
         .category-card { background-color: var(--card-bg); border-radius: 12px; padding: 16px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; }
         .option-btn { background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 10px; margin-bottom: 8px; width: 100%; text-align: left; cursor: pointer; }
@@ -104,7 +108,41 @@
             {q: "Поворот налево на многополосной?", o: ["Можно", "Запрещено (нужно идти пешком)"], c: 1, e: "Поворот налево для СИМ запрещен (ПДД 24.8)."}
         ]}
     };
-
+<div id="articles-section" style="margin-top: 20px; padding: 15px; background: #2c3e50; border-radius: 8px;">
+    <h3 style="color: #ffffff; margin-bottom: 10px; font-size: 18px;">Правовая база (Памятка)</h3>
+    
+    <div style="color: #cccccc; padding: 8px 0; border-bottom: 1px solid #3e5871; font-size: 14px;">
+        <strong>1. Ст. 51 Конституции РФ:</strong> Никто не обязан свидетельствовать против себя, своего супруга и близких родственников.
+    </div>
+    <div style="color: #cccccc; padding: 8px 0; border-bottom: 1px solid #3e5871; font-size: 14px;">
+        <strong>2. Ст. 5 Закона «О полиции»:</strong> Сотрудник обязан представиться, назвать должность, звание и фамилию, предъявить удостоверение.
+    </div>
+    <div style="color: #cccccc; padding: 8px 0; border-bottom: 1px solid #3e5871; font-size: 14px;">
+        <strong>3. Ст. 14 ФЗ «О полиции»:</strong> Задержание возможно только при наличии законных оснований; ты имеешь право на один телефонный звонок.
+    </div>
+    <div style="color: #cccccc; padding: 8px 0; border-bottom: 1px solid #3e5871; font-size: 14px;">
+        <strong>4. Ст. 13 Закона «О полиции»:</strong> Полиция имеет право проверять документы только при подозрении в совершении правонарушения.
+    </div>
+    <div style="color: #cccccc; padding: 8px 0; border-bottom: 1px solid #3e5871; font-size: 14px;">
+        <strong>5. Ст. 27.2 КоАП РФ:</strong> Доставление — это принудительное препровождение в служебное помещение для составления протокола.
+    </div>
+    <div style="color: #cccccc; padding: 8px 0; border-bottom: 1px solid #3e5871; font-size: 14px;">
+        <strong>6. Ст. 27.7 КоАП РФ:</strong> Личный досмотр проводится в присутствии двух понятых либо под видеозапись.
+    </div>
+    <div style="color: #cccccc; padding: 8px 0; border-bottom: 1px solid #3e5871; font-size: 14px;">
+        <strong>7. Ст. 27.10 КоАП РФ:</strong> Изъятие вещей (телефона и т.д.) оформляется отдельным протоколом или записью в протоколе о досмотре.
+    </div>
+    <div style="color: #cccccc; padding: 8px 0; border-bottom: 1px solid #3e5871; font-size: 14px;">
+        <strong>8. Ст. 1.5 КоАП РФ:</strong> Презумпция невиновности: лицо считается невиновным, пока его вина не будет доказана.
+    </div>
+    <div style="color: #cccccc; padding: 8px 0; border-bottom: 1px solid #3e5871; font-size: 14px;">
+        <strong>9. Ст. 33 Конституции РФ:</strong> Право направлять личные обращения в государственные органы.
+    </div>
+    <div style="color: #cccccc; padding: 8px 0; border-bottom: 1px solid #3e5871; font-size: 14px;">
+        <strong>10. Ст. 27.5 КоАП РФ:</strong> Срок административного задержания не должен превышать 3 часов (в исключительных случаях — до 48 часов).
+    </div>
+</div>
+    
     let currentQuestionsList = [];
     let currentQuestion = 0;
     let score = 0;
